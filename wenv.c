@@ -40,7 +40,7 @@ static size_t count_vars(wchar_t **envp)
     return count;
 }
 
-static inline size_t name_length(wchar_t *const var)
+static inline size_t name_length(wchar_t const *var)
 {
     wchar_t const* end = wcschr(var, L'=');
     return end ? (size_t)(end - var) : wcslen(var);
