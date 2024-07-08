@@ -36,17 +36,19 @@ static size_t count_vars(wchar_t **envp)
 
 static wchar_t *dup_name(wchar_t const *var)
 {
-    wchar_t *end = wcschr(var, L'-');
+    wchar_t *end = wcschr(var, L'=');
     size_t len = (end ? (size_t)(end - var) : wcslen(var)); // Not very elegant.
     wchar_t *name = xcalloc(len + 1, sizeof(name[0]));
     wmemcpy(name, var, len + 1);
     return name;
 }
 
-static int compare_names(void const *lhs, void const *rhs)
+static int compare_names(void const *lhspv, void const *rhspv)
 {
-    wchar_t *__restrict lhs_name = dup_name(lhs);
-    wchar_t *__restrict rhs_name = dup_name(rhs);
+    wchar_t **lhsp = lhspv;
+    wchar_t **rhsp = rhspv;
+    wchar_t *__restrict lhs_name = dup_name(*lhsp);
+    wchar_t *__restrict rhs_name = dup_name(*rhsp);
     int result = wcscmp(lhs_name, rhs_name); // Maybe wcsicmp would be better.
     FREE_AND_SET_NULL(rhs_name);
     FREE_AND_SET_NULL(lhs_name);
@@ -60,8 +62,8 @@ int wmain(int argc, wchar_t **argv, wchar_t **envp)
     xcmemcpy(vars, envp, count + 1, sizeof(vars[0]));
 
     qsort(vars, count, sizeof(vars[0]), compare_names);
-    for (wchar_t** var = vars; *var; ++var) {
-        _putws(var);
+    for (wchar_t **varp = vars; *varp; ++varp) {
+        _putws(*varp);
     }
 
     FREE_AND_SET_NULL(vars);
