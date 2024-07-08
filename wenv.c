@@ -6,8 +6,6 @@
 #include <string.h>
 #include <wchar.h>
 
-#define FREE_AND_SET_NULL(ptr) do { free(ptr); ptr = NULL; } while (false)
-
 static inline size_t minimum(size_t x, size_t y)
 {
     return y < x ? y : x;
@@ -84,5 +82,5 @@ int wmain(int argc, wchar_t **argv, wchar_t **envp)
         _putws(*varp);
     }
 
-    FREE_AND_SET_NULL(vars);
+    free(vars);
 }
