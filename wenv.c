@@ -72,6 +72,9 @@ static int compare_names_for_qsort(void const *lhspv, void const *rhspv)
 
 int wmain(int argc, wchar_t **argv, wchar_t **envp)
 {
+    (void)argc;
+    (void)argv;
+
     size_t count = count_vars(envp);
     wchar_t **vars = xcalloc(count + 1, sizeof(vars[0]));
     xcmemcpy(vars, envp, count + 1, sizeof(vars[0]));
