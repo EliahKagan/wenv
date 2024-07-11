@@ -138,7 +138,8 @@ int wmain(int argc, wchar_t **argv, wchar_t **envp)
         return cfg.unrecognized ? EXIT_FAILURE : EXIT_SUCCESS;
     }
     if (cfg.unrecognized) {
-        fwprintf(stderr, L"%s: error: unrecognized option: %s\n", argv[0], cfg.unrecognized);
+        fwprintf(stderr, L"%s: error: unrecognized option: %s\n",
+                 argv[0], cfg.unrecognized);
         return EXIT_FAILURE;
     }
 
