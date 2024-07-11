@@ -37,37 +37,6 @@ static void *xcmemcpy(void *__restrict dest, const void *__restrict src,
     return memcpy(dest, src, count * size);
 }
 
-struct config {
-    bool help;
-    bool sort;
-    wchar_t const* unrecognized;
-};
-
-static inline bool is_match(wchar_t const *arg,
-                            wchar_t const *short_opt,
-                            wchar_t const *long_opt)
-{
-    return wcscmp(arg, short_opt) == 0
-        || wcscmp(arg, long_opt) == 0;
-}
-
-static void parse_config(int argc, wchar_t **argv, struct config *cfgp)
-{
-    cfgp->help = false;
-    cfgp->sort = false;
-    cfgp->unrecognized = NULL;
-
-    for (int i = 1; i < argc; ++i) {
-        if (is_match(argv[i], L"-h", L"--help")) {
-            cfgp->help = true;
-        } else if (is_match(argv[i], L"-s", L"--sort")) {
-            cfgp->sort = true;
-        } else if (!cfgp->unrecognized) {
-            cfgp->unrecognized = argv[i];
-        }
-    }
-}
-
 static size_t count_vars(wchar_t **envp)
 {
     size_t count = 0;
@@ -124,6 +93,37 @@ static void print_vars_sorted(wchar_t** envp)
     print_vars(vars);
 
     free(vars);
+}
+
+struct config {
+    bool help;
+    bool sort;
+    wchar_t const *unrecognized;
+};
+
+static inline bool is_match(wchar_t const *arg,
+                            wchar_t const *short_opt,
+                            wchar_t const *long_opt)
+{
+    return wcscmp(arg, short_opt) == 0
+        || wcscmp(arg, long_opt) == 0;
+}
+
+static void parse_config(int argc, wchar_t **argv, struct config *cfgp)
+{
+    cfgp->help = false;
+    cfgp->sort = false;
+    cfgp->unrecognized = NULL;
+
+    for (int i = 1; i < argc; ++i) {
+        if (is_match(argv[i], L"-h", L"--help")) {
+            cfgp->help = true;
+        } else if (is_match(argv[i], L"-s", L"--sort")) {
+            cfgp->sort = true;
+        } else if (!cfgp->unrecognized) {
+            cfgp->unrecognized = argv[i];
+        }
+    }
 }
 
 int wmain(int argc, wchar_t **argv, wchar_t **envp)
