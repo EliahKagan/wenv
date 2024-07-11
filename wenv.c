@@ -132,9 +132,11 @@ int wmain(int argc, wchar_t **argv, wchar_t **envp)
     parse_config(argc, argv, &cfg);
 
     if (cfg.help) {
-        fwprintf(stderr, L"Usage:  %s [--sort|-s]\n", argv[0]);
+        fwprintf(stderr, L"Usage:\n  %s [--sort|-s]\n", argv[0]);
         fwprintf(stderr, L"\n  Shows environment variables, one per line.\n");
-        fwprintf(stderr, L"\n  Pass --sort or -s to sort case-sensitively.\n");
+        fwprintf(stderr, L"\n  Options:\n");
+        fwprintf(stderr, L"    --sort, -s   Sort environment variables case-sensitively.\n");
+        fwprintf(stderr, L"    --help, -h   Show this help message.\n");
         return cfg.unrecognized ? EXIT_FAILURE : EXIT_SUCCESS;
     }
     if (cfg.unrecognized) {
